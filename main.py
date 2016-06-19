@@ -27,15 +27,14 @@ def main():
 
     for msg in single_rest_msgs:
         rest_name = single_rest_regex.match(msg['text']).group(1).strip()
-        timestamp = msg['ts']
-        add_restaurant(restaurants, rest_name, timestamp)
+        add_restaurant(restaurants, rest_name, msg)
 
     for msg in multiple_rest_msgs:
         rest_name_str = multiple_rest_regex.match(msg['text']).group(1)
         # Regex note: & signs come in through the API as &amp;
         rest_name_list = re.split("(?i),\s?(?:and|&amp;)?\s|\s(?:and|&amp;)\s", rest_name_str)
         for rest_name in rest_name_list:
-            add_restaurant(restaurants, rest_name, timestamp)
+            add_restaurant(restaurants, rest_name, msg)
 
     map_to_averages(restaurants)
     map_dict(format_seconds, restaurants)
@@ -96,10 +95,11 @@ def clean_restaurant_name(restaurant):
     return restaurant
 
 
-def add_restaurant(rest_list, restaurant, timestamp):
+def add_restaurant(rest_list, restaurant, msg):
     restaurant = clean_restaurant_name(restaurant)
     # print rest_list.get(restaurant, [])
     # print restaurant
+    timestamp = msg['ts']
     rest_list[restaurant] = rest_list.get(restaurant, []) + [timestamp]
     if restaurant in rest_list:
         rest_list[restaurant].append(timestamp)
