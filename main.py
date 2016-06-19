@@ -38,11 +38,30 @@ def main():
             add_restaurant(restaurants, rest_name, timestamp)
 
     map_to_averages(restaurants)
+    map_dict(format_seconds, restaurants)
 
     # map_dict(lambda L: len(L), restaurants)
 
     pretty_print_dictionary(restaurants)
 
+
+# format seconds to 12 hours format
+# Ex. 49204 => '1:40:04 P.M.'
+def format_seconds(sec):
+    # Ex. td = "11:52:12"
+    td = str(datetime.timedelta(seconds=sec))
+    td_split = td.split(":")
+    (hours, minutes, seconds) = (int(td_split[0]), int(td_split[1]), int(td_split[2]))
+    if hours >= 12:
+        period = " P.M."
+    else:
+        period = " A.M."
+    if hours > 12:
+        hours -= 12
+        td = str(hours) + td[2:]
+    if hours == 0:
+        hours = 12
+    return td + period
 
 def map_dict(map_fn, dict):
     for (key, val) in dict.iteritems():
