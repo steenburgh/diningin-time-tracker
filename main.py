@@ -101,10 +101,6 @@ def add_restaurant(rest_list, restaurant, msg):
     # print restaurant
     timestamp = msg['ts']
     rest_list[restaurant] = rest_list.get(restaurant, []) + [timestamp]
-    if restaurant in rest_list:
-        rest_list[restaurant].append(timestamp)
-    else:
-        rest_list[restaurant] = [timestamp]
 
 
 def pretty_print_dictionary(dict):
