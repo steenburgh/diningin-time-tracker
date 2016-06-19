@@ -37,7 +37,33 @@ def main():
         for rest_name in rest_name_list:
             add_restaurant(restaurants, rest_name, timestamp)
 
+    map_to_averages(restaurants)
+
+    # map_dict(lambda L: len(L), restaurants)
+
     pretty_print_dictionary(restaurants)
+
+
+def map_dict(map_fn, dict):
+    for (key, val) in dict.iteritems():
+        dict[key] = map_fn(val)
+
+
+# converts dict of unix timestamp list to average seconds
+def map_to_averages(dict):
+    for (key, val) in dict.iteritems():
+        dict[key] = reduce(lambda x, y: x+y, map(convert_from_timestamp, val)) / len(val)
+
+
+# converts unix timestamp to seconds (in 24 hour period)
+# Ex. "1456768776.000113" => 43176
+def convert_from_timestamp(timestamp_str):
+    dt_obj = datetime.datetime.fromtimestamp(int(float(timestamp_str)))
+    hour = dt_obj.hour
+    minutes = dt_obj.minute
+    seconds = dt_obj.second
+    return hour*3600 + minutes*60 + seconds
+
 
 def clean_restaurant_name(restaurant):
     # only lower case letters
