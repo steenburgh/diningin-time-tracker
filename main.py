@@ -1,5 +1,6 @@
 import json
 import re
+import datetime
 
 import API
 
@@ -26,14 +27,15 @@ def main():
 
     for msg in single_rest_msgs:
         rest_name = single_rest_regex.match(msg['text']).group(1).strip()
-        add_restaurant(restaurants, rest_name)
+        timestamp = msg['ts']
+        add_restaurant(restaurants, rest_name, timestamp)
 
     for msg in multiple_rest_msgs:
         rest_name_str = multiple_rest_regex.match(msg['text']).group(1)
         # Regex note: & signs come in through the API as &amp;
         rest_name_list = re.split("(?i),\s?(?:and|&amp;)?\s|\s(?:and|&amp;)\s", rest_name_str)
         for rest_name in rest_name_list:
-            add_restaurant(restaurants, rest_name)
+            add_restaurant(restaurants, rest_name, timestamp)
 
     pretty_print_dictionary(restaurants)
 
@@ -47,12 +49,15 @@ def clean_restaurant_name(restaurant):
     return restaurant
 
 
-def add_restaurant(rest_list, restaurant):
+def add_restaurant(rest_list, restaurant, timestamp):
     restaurant = clean_restaurant_name(restaurant)
-    if rest_list.__contains__(restaurant):
-        rest_list[restaurant] += 1
+    # print rest_list.get(restaurant, [])
+    # print restaurant
+    rest_list[restaurant] = rest_list.get(restaurant, []) + [timestamp]
+    if restaurant in rest_list:
+        rest_list[restaurant].append(timestamp)
     else:
-        rest_list[restaurant] = 1
+        rest_list[restaurant] = [timestamp]
 
 
 def pretty_print_dictionary(dict):
