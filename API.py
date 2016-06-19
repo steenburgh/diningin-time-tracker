@@ -38,9 +38,9 @@ def call(method, args={}, warn=True):
         params=args
     )
 
-    if warn and r.json().__contains__('warning'):
+    if warn and r.json().__contains__('warnings'):
         print(
-            "Warning: {msg}".format(msg=r.json()['warning']),
+            "Warnings: {msg}".format(msg=",".join(r.json()['warnings'])),
             file=sys.stderr
         )
 
