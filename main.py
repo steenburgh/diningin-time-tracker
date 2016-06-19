@@ -37,8 +37,18 @@ def main():
 
     pretty_print_dictionary(restaurants)
 
+def clean_restaurant_name(restaurant):
+    # only lower case letters
+    restaurant = restaurant.lower()
+    # replace '&'' with 'and'
+    restaurant = restaurant.replace("amp", "and")
+    # remove special chars (only keep numbers, letters, and spaces)
+    restaurant = re.sub('[^a-zA-Z0-9 \n\.]', '', restaurant)
+    return restaurant
+
 
 def add_restaurant(rest_list, restaurant):
+    restaurant = clean_restaurant_name(restaurant)
     if rest_list.__contains__(restaurant):
         rest_list[restaurant] += 1
     else:
