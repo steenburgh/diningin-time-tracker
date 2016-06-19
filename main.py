@@ -63,6 +63,8 @@ def format_seconds(sec):
         hours = 12
     return td + period
 
+
+# applies map_fn to each value stored in dictionary
 def map_dict(map_fn, dict):
     for (key, val) in dict.iteritems():
         dict[key] = map_fn(val)
@@ -85,7 +87,7 @@ def convert_from_timestamp(timestamp_str):
 
 
 def clean_restaurant_name(restaurant):
-    # only lower case letters
+    # convert letters to lower case
     restaurant = restaurant.lower()
     # replace '&'' with 'and'
     restaurant = restaurant.replace("amp", "and")
