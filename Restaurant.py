@@ -25,7 +25,12 @@ class Restaurant:
         return self.name == other.name
 
     def __str__(self):
-        return str(len(self._times)) + " | " + self.name + " | " + format_seconds(self.get_average_time())
+        return "{count} | {name} | {avg}\n\t{times}\n".format(
+            count=len(self._times),
+            name=self.name,
+            avg=format_seconds(self.get_average_time()),
+            times=", ".join(map(lambda time: format_seconds(time), self._times)),
+        )
 
 
 def convert_from_timestamp(timestamp_str):

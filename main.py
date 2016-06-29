@@ -39,7 +39,7 @@ def main():
             add_restaurant(restaurants, rest_name, msg)
 
     rests_list = restaurants.values()
-    rests_list.sort(key=lambda rest: rest.name, reverse=False)
+    rests_list.sort(key=lambda rest: rest.get_average_time(), reverse=False)
     for rest in rests_list:
         print rest
 
