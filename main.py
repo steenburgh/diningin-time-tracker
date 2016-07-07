@@ -1,3 +1,5 @@
+import os
+import sys
 import json
 import re
 import datetime
@@ -11,6 +13,10 @@ LUNCH_DELIVERY = "C04FQP1G4"
 
 
 def main():
+    # Change the current working directory to the directory the script is located in
+    # Don't know why this wasn't the default behavior...
+    os.chdir(os.path.dirname(sys.argv[0]))
+
     # dictionary mapping Restaurant to Restaurant
     restaurants = {}
     lunch_channel_json = API.get_channel_history(channelID=LUNCH_DELIVERY, count=1000)
