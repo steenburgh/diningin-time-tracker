@@ -2,8 +2,9 @@ import datetime
 
 
 class Restaurant:
-    def __init__(self, name):
+    def __init__(self, name, id):
         self.name = name
+        self.id = id
         self._times = []
         self._avg_seconds = None
 
