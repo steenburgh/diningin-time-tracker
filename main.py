@@ -15,11 +15,12 @@ LUNCH_DELIVERY = "C04FQP1G4"
 def main():
     # Change the current working directory to the directory the script is located in
     # Don't know why this wasn't the default behavior...
-    os.chdir(os.path.dirname(sys.argv[0]))
+    if len(os.path.dirname(sys.argv[0])) > 0:
+        os.chdir(os.path.dirname(sys.argv[0]))
 
     # dictionary mapping Restaurant to Restaurant
     restaurants = {}
-    lunch_channel_json = API.get_channel_history(channelID=LUNCH_DELIVERY, count=1000)
+    lunch_channel_json = API.get_channel_history(channel_id=LUNCH_DELIVERY, count=1000)
 
     id_to_rest_name_dict = json_file_to_dic('rest_ids.json')
     rest_name_to_id_dict = reverse_dic(id_to_rest_name_dict)
