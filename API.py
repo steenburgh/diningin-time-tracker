@@ -1,11 +1,12 @@
 from __future__ import print_function
 import httplib
+from Credentials import AUTH_TOKEN
 
 import sys
 
 import requests
 
-AUTH_TOKEN = 'xoxb-51798272368-vjpfYBtwRIpcSg28mzhbsXeS'
+
 API_URL = "https://sproutsocial.slack.com/api/{method}"
 
 
@@ -21,11 +22,11 @@ def post_message(channel_name, message, username='Diningin Bot', icon_emoji=":kn
     )
 
 
-def get_channel_history(channelID, count=100):
+def get_channel_history(channel_id, count=100):
     return call(
         'channels.history',
         args={
-            'channel': channelID,
+            'channel': channel_id,
             'count': count,
         }
     )
