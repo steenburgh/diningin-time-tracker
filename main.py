@@ -7,7 +7,6 @@ import time
 
 import API
 from Restaurant import Restaurant
-from Restaurant import format_seconds
 
 LUNCH_DELIVERY = "C04FQP1G4"
 
@@ -58,7 +57,7 @@ def main():
                 add_restaurant(restaurants, rest_name, rest_id, msg)
 
     rests_list = restaurants.values()
-    rests_list.sort(key=lambda rest: rest.get_average_time(), reverse=False)
+    rests_list.sort(key=lambda rest: len(rest.unix_timestamps))
 
     for rest in rests_list:
         print rest
@@ -109,11 +108,12 @@ def clean_restaurant_name(rest_name):
 def add_restaurant(rest_dict, rest_name, rest_id, msg):
     restaurant = Restaurant(name=rest_name, id=rest_id)
     timestamp_str = msg['ts']
+    timestamp_int = int(float(timestamp_str))
 
     if rest_dict.__contains__(restaurant):
-        rest_dict[restaurant].add_time(timestamp_str)
+        rest_dict[restaurant].add_time(timestamp_int)
     else:
-        restaurant.add_time(timestamp_str)
+        restaurant.add_time(timestamp_int)
         rest_dict[restaurant] = restaurant
 
 
@@ -132,7 +132,7 @@ def json_file_to_dic(json_filename):
 def write_averages_json_file(rests_list):
     final_dict = {}
     for rest in rests_list:
-        final_dict[rest.id] = format_seconds(rest.get_average_time())
+        final_dict[rest.id] = rest.unix_timestamps
 
     time_now = datetime.datetime.now()
     # time in millseconds
