@@ -139,7 +139,7 @@ def write_averages_json_file(rests_list):
     javascript_time_now = int(time.mktime(time_now.timetuple())) * 1000
     final_dict['last_updated'] = javascript_time_now
 
-    with open("averages.json", "w") as write_file:
+    with open("delivery_times.json", "w") as write_file:
         write_file.write(json.dumps(final_dict, write_file, indent=4))
 
 
